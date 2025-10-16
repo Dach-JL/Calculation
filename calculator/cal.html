@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modern Calculator</title>
+  <style>
+    /* ==== Reset and Base ==== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #1e293b, #334155, #64748b);
+      background-size: 400% 400%;
+      animation: gradientMove 8s ease infinite;
+    }
+
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ==== Calculator Box ==== */
+    .calculator {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 330px;
+      padding: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .calculator:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ==== Display ==== */
+    .display {
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+      text-align: right;
+      font-size: 2rem;
+      padding: 20px;
+      border-radius: 12px;
+      overflow-x: auto;
+      min-height: 60px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ==== Buttons ==== */
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    button {
+      height: 65px;
+      border: none;
+      border-radius: 15px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #f8fafc;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.35);
+    }
+
+    /* ==== Button Colors ==== */
+    .operator {
+      background: #f59e0b;
+    }
+
+    .operator:hover {
+      background: #fbbf24;
+    }
+
+    .equal {
+      background: #10b981;
+      grid-column: span 2;
+    }
+
+    .equal:hover {
+      background: #34d399;
+    }
+
+    .clear {
+      background: #ef4444;
+    }
+
+    .clear:hover {
+      background: #f87171;
+    }
+
+    .delete {
+      background: #3b82f6;
+    }
+
+    .delete:hover {
+      background: #60a5fa;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="delete" onclick="deleteLast()">DEL</button>
+      <button onclick="appendToDisplay('%')">%</button>
+      <button class="operator" onclick="appendToDisplay('/')">÷</button>
+
+      <button onclick="appendToDisplay('7')">7</button>
+      <button onclick="appendToDisplay('8')">8</button>
+      <button onclick="appendToDisplay('9')">9</button>
+      <button class="operator" onclick="appendToDisplay('*')">×</button>
+
+      <button onclick="appendToDisplay('4')">4</button>
+      <button onclick="appendToDisplay('5')">5</button>
+      <button onclick="appendToDisplay('6')">6</button>
+      <button class="operator" onclick="appendToDisplay('-')">−</button>
+
+      <button onclick="appendToDisplay('1')">1</button>
+      <button onclick="appendToDisplay('2')">2</button>
+      <button onclick="appendToDisplay('3')">3</button>
+      <button class="operator" onclick="appendToDisplay('+')">+</button>
+
+      <button onclick="appendToDisplay('0')">0</button>
+      <button onclick="appendToDisplay('.')">.</button>
+      <button class="equal" onclick="calculateResult()">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+
+    function appendToDisplay(value) {
+      if (display.innerText === "0") display.innerText = "";
+      display.innerText += value;
+    }
+
+    function clearDisplay() {
+      display.innerText = "0";
+    }
+
+    function deleteLast() {
+      display.innerText = display.innerText.slice(0, -1) || "0";
+    }
+
+    function calculateResult() {
+      try {
+        const result = eval(display.innerText
+          .replace("÷", "/")
+          .replace("×", "*"));
+        display.innerText = result;
+      } catch {
+        display.innerText = "Error";
+      }
+    }
+  </script>
+</body>
+</html>
